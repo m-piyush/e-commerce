@@ -18,6 +18,8 @@ import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute';
 import axios from 'axios';
 import { showToast } from '@/lib/showToast';
 import OtpVerification from '@/components/Application/otpVerification';
+import { useDispatch } from 'react-redux';
+import { login } from '@/store/reducer/authReducer';
 
 
 function LoginPage() {
@@ -25,7 +27,7 @@ function LoginPage() {
     const [isTypePassword, setIsTypePassword] = useState(true);
     const [otpEmail, setOtpEmail] = useState();
     const [otpVerificationLoading, setOtpVerificationLoading] = useState(false);
-
+    const dispatch = useDispatch();
     const formSchema = zSchema.pick({
         email: true
     }).extend({
@@ -72,7 +74,7 @@ function LoginPage() {
             }
             setOtpEmail('');
             showToast('success', otpResponse.message);
-
+            dispatch(login(otpResponse.data))
         } catch (error) {
 
             showToast('error', error.message || 'Login failed');

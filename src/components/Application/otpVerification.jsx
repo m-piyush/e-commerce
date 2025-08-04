@@ -1,9 +1,10 @@
+"use client"
+
 import zSchema from '@/lib/zodSchema'
 import React, { useState } from 'react'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from 'axios'
 import {
@@ -40,8 +41,8 @@ function OtpVerification({ email, onsubmit, loading }) {
   const resendOTP = async () => {
     try {
       setIsResendingOTP(true);
-      const { data: registerResponse } = await axios.post('/api/auth/resend-otp',{email});
-      
+      const { data: registerResponse } = await axios.post('/api/auth/resend-otp', { email });
+
       if (!registerResponse.success) {
         throw new Error(registerResponse.message);
       }
@@ -108,7 +109,8 @@ function OtpVerification({ email, onsubmit, loading }) {
             </div>
           </div>
         </form>
-      </Form></div>
+      </Form>
+    </div>
   )
 }
 

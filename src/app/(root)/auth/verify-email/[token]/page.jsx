@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 
 function EmailVerification() {
-  const params = useParams(); // ✅ get params from hook
+  const params = useParams(); 
   const token = params?.token;
 
   const [isVerified, setIsVerified] = useState(false);
