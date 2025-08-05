@@ -14,20 +14,25 @@ import { z } from 'zod';
 import { Eye } from "lucide-react"
 import { EyeOff } from "lucide-react"
 import Link from 'next/link';
-import { WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from '@/routes/WebsiteRoute';
+import { USER_DASHBOARD, WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from '@/routes/WebsiteRoute';
 import axios from 'axios';
 import { showToast } from '@/lib/showToast';
 import OtpVerification from '@/components/Application/otpVerification';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/reducer/authReducer';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ADMIN_DASDBOARD } from '@/routes/AdminPanelRoute';
 
 
 function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [isTypePassword, setIsTypePassword] = useState(true);
     const [otpEmail, setOtpEmail] = useState();
+    const [checkValue, setCheckValue] = useState({});
     const [otpVerificationLoading, setOtpVerificationLoading] = useState(false);
     const dispatch = useDispatch();
+    const searchParams = useSearchParams();
+    const router = useRouter();
     const formSchema = zSchema.pick({
         email: true
     }).extend({
@@ -46,7 +51,6 @@ function LoginPage() {
             setLoading(true);
             const { data: loginResponse } = await axios.post('/api/auth/login', values);
 
-
             if (!loginResponse.success) {
                 throw new Error(loginResponse.message);
             }
@@ -63,18 +67,27 @@ function LoginPage() {
             setLoading(false);
         }
     }
+
+    console.log("checkValue", checkValue);
+
     // OTP verification component
     const handleOtpVerification = async (values) => {
         try {
             setOtpVerificationLoading(true);
             const { data: otpResponse } = await axios.post('/api/auth/verify-otp', values);
-
+            setCheckValue(otpResponse)
+            console.log("820701", otpResponse);
             if (!otpResponse.success) {
                 throw new Error(otpResponse.message);
             }
             setOtpEmail('');
             showToast('success', otpResponse.message);
             dispatch(login(otpResponse.data))
+            if (searchParams.has('callback')) {
+                router.push(searchParams.get('callback'))
+            } else {
+                otpResponse.data.role === 'admin' ? router.push(ADMIN_DASDBOARD) : router.push(USER_DASHBOARD)
+            }
         } catch (error) {
 
             showToast('error', error.message || 'Login failed');
