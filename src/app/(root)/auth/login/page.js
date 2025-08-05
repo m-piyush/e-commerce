@@ -14,7 +14,7 @@ import { z } from 'zod';
 import { Eye } from "lucide-react"
 import { EyeOff } from "lucide-react"
 import Link from 'next/link';
-import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute';
+import { WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from '@/routes/WebsiteRoute';
 import axios from 'axios';
 import { showToast } from '@/lib/showToast';
 import OtpVerification from '@/components/Application/otpVerification';
@@ -147,7 +147,7 @@ function LoginPage() {
                                         <Link className='text-primary underline' href={WEBSITE_REGISTER}>Create account</Link>
                                     </div>
                                     <div>
-                                        <Link className='text-primary underline' href={''}>forget password ?</Link>
+                                        <Link className='text-primary underline' href={WEBSITE_RESETPASSWORD}>forget password ?</Link>
 
                                     </div>
                                 </div>
