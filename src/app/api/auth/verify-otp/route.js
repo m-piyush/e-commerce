@@ -38,6 +38,7 @@ export async function POST(request) {
 
         const loginUserData = {
             _id: getUser._id,
+            role: getUser.role,
             email: getUser.email,
             name: getUser.name,
             avatar: getUser.avatar
