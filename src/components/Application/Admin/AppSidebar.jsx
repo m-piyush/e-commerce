@@ -1,5 +1,6 @@
+'use client'
 import React from 'react';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, useSidebar } from "@/components/ui/sidebar";
 import Image from 'next/image';
 import logoBlack from '../../../../public/assets/images/logo-black.png';
 import logoWhite from '../../../../public/assets/images/logo-white.png';
@@ -11,16 +12,17 @@ import { adminAppSidebarMenu } from '@/lib/adminSidebarMenu';
 import { Collapsible } from '@radix-ui/react-collapsible';
 import { CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import Link from 'next/link';
-const AppSidebar = () => {
-  console.log("adminAppSidebarMenu", adminAppSidebarMenu);
 
+
+const AppSidebar = () => {
+      const { toggleSidebar } = useSidebar();
   return (
-    <Sidebar>
+    <Sidebar className="z-50">
       <SidebarHeader className="border-b h-14 p-0">
         <div className='flex justify-between items-center px-4'>
           <Image src={logoBlack.src} height={logoWhite.height} width={logoBlack.width} className='block dark:hidden h-[50px] w-auto' alt="logo dark" />
-          <Image src={logoWhite.src} height={logoBlack.height} width={logoWhite.width} className='hidden dark:hidden h-[50px] w-auto' alt="logo white" />
-          <Button type="Button" size="icon" className="">
+          <Image src={logoWhite.src} height={logoBlack.height} width={logoWhite.width} className='hidden dark:block h-[50px] w-auto' alt="logo white" />
+          <Button type="Button" size="icon" className="md:hidden" onClick={toggleSidebar}>
             <IoMdClose />
           </Button>
 
